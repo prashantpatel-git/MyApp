@@ -21,8 +21,6 @@ public class NearbyPlace {
     private String icon;
 
     /*@PrimaryKey(autoGenerate = true)
-
-
     @Expose(serialize = false, deserialize = false)
     private long id;*/
 
