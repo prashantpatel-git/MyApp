@@ -20,7 +20,6 @@ public class NearbyPlace {
     @Expose
     private String icon;
 
-    private String xyzabc;
     /*@PrimaryKey(autoGenerate = true)
     @Expose(serialize = false, deserialize = false)
     private long id;*/
