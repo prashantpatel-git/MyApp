@@ -11,7 +11,7 @@ import com.prashant.RoomDemo.models.NearbyPlace;
  * Created by Prashant on 11/03/18.
  */
 
-@Database(entities = {NearbyPlace.class}, version = 1)
+@Database(entities = {NearbyPlace.class/*, Teacher.class, Student.class*/}, version = 1)
 public abstract class MyAppDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "MyDb";

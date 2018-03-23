@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CURRENCY_TABLE = "currency";
     public static final String COLLECTION_TABLE = "collection_table";
 
+
     public static DatabaseHelper helperInstance;
 
     public DatabaseHelper(Context context) {

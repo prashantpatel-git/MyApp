@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by Prashant on 11/03/18.
  */
 
-public class AppPreferences {
+public class AppPreferences{
 
     private final static String PREF_NAME = "My Prefs";
     private final static String PREF_LATITUDE = "p_lat";

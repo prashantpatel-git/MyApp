@@ -1,8 +1,10 @@
 package com.prashant.RoomDemo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +23,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.prashant.RoomDemo.Utils.AppPreferences;
 import com.prashant.RoomDemo.Utils.GlobalVariables;
+import com.prashant.RoomDemo.models.Geometry;
 import com.prashant.RoomDemo.models.NearbyPlace;
 import com.prashant.RoomDemo.models.NearbyPlacesResponse;
+import com.prashant.RoomDemo.models.xml.NearbyPlacesXmlResponse;
 import com.prashant.RoomDemo.retrofit.RetrofitClient;
 import com.prashant.RoomDemo.room.MyAppDatabase;
 
@@ -75,12 +79,20 @@ public class MainActivity extends AppCompatActivity {
                             lastLocation = location;
                             AppPreferences.getInstance().setLocation(location);
 
-                            getNearByPlaces();
+                            //getNearByPlaces();
+                            getNearByPlacesXml();
                             //startActivity(new Intent(MainActivity.this, NearByPlacesActivity.class));
                         }
 
                     }
                 });
+            }
+        });
+
+        findViewById(R.id.main_btn_teachers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, TeacherListActivity.class));
             }
         });
     }
@@ -169,6 +181,49 @@ public class MainActivity extends AppCompatActivity {
 
                     if (nearbyResponse.getmStatus().equals("OK")) {
                         insertPlaces(nearbyResponse.getmPlaces());
+                    } else {
+                        Log.d("Nearbyplaces", nearbyResponse.getErrorMsg());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("Nearbyplaces", e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
+        compositeDisposable.add(disposableObserver);
+
+        nearbyResponseObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(disposableObserver);
+
+    }
+
+    private void getNearByPlacesXml() {
+        io.reactivex.Observable<NearbyPlacesXmlResponse> nearbyResponseObservable
+                = RetrofitClient.getRetrofitInterface().getNearbyPlacesXml(
+                AppPreferences.getInstance().getLatitude() + "," + AppPreferences.getInstance().getLongitude(),
+                "bank",
+                5000,
+                GlobalVariables.API_KEY
+        );
+
+        DisposableObserver<NearbyPlacesXmlResponse> disposableObserver = new DisposableObserver<NearbyPlacesXmlResponse>() {
+            @Override
+            public void onNext(NearbyPlacesXmlResponse nearbyResponse) {
+
+                if (nearbyResponse != null) {
+
+                    if (nearbyResponse.getmStatus().equals("OK")) {
+                        //insertPlaces(nearbyResponse.getmPlaces());
                     } else {
                         Log.d("Nearbyplaces", nearbyResponse.getErrorMsg());
                     }
@@ -301,6 +356,14 @@ public class MainActivity extends AppCompatActivity {
         compositeDisposable = null;
 
         super.onDestroy();
+    }
+
+    public class Async extends AsyncTask<Geometry, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Geometry... geometries) {
+            return null;
+        }
     }
 }
 

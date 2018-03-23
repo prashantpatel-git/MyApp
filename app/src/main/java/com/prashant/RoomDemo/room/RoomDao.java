@@ -20,4 +20,16 @@ public interface RoomDao {
 
     @Insert
     void insertAllPlaces(List<NearbyPlace> nearbyPlaceList);
+
+    /*@Insert
+    void insertTeacher(Teacher teacher);
+
+    @Insert
+    void insertStudent(Student student);
+
+    @Query("Select * from Teacher")
+    Maybe<List<Teacher>> getTeachers();
+
+    @Query("Select s.*, t.* from Teacher t, Student s Where s.tid=:teacherId")
+    Maybe<List<StudentTeacher>> getStudentsAndTeachers(int teacherId);*/
 }

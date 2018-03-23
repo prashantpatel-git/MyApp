@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
  * Created by Prashant on 11/03/18.
@@ -33,9 +33,10 @@ public class RetrofitClient {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson)) // <- add this
+                    //.addConverterFactory(GsonConverterFactory.create(gson)) // <- add this
                     .client(createOkHttpClient())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
                     .build();
         }
         return retrofit;
